@@ -10,16 +10,20 @@ Enzyme.configure({ adapter: new Adapter() });
 describe("Button", () => {
   it("renders without crashing", () => {
     const div = document.createElement("div");
-    ReactDOM.render(<Button>Give Me More</Button>, div);
+    ReactDOM.render(<Button onClick={function() {}}>Give Me More</Button>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
-  it("shows button called Give Me More", () => {
-    const element = shallow(<Button>Give Me More</Button>);
+  it("shows button Give Me More", () => {
+    const element = shallow(
+      <Button onClick={function() {}}>Give Me More</Button>
+    );
     expect(element.text()).toBe("Give Me More");
   });
 
   test("has a valid snapshot", () => {
-    const component = renderer.create(<Button>Give Me More</Button>);
+    const component = renderer.create(
+      <Button onClick={function() {}}>Give Me More</Button>
+    );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });

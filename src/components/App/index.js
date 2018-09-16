@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Search } from "../Search";
+import { Table } from "../Table";
+import { Button } from "../Button";
 import axios from "axios";
 import "./index.css";
 
@@ -11,10 +14,6 @@ import {
   PARAM_PAGE,
   PARAM_HPP
 } from "../../constants";
-
-import { Search } from "../Search";
-import { Table } from "../Table";
-import { Button } from "../Button";
 
 export class App extends Component {
   _isMounted = false;
