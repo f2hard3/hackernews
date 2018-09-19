@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Search } from "../Search";
-import { Table } from "../Table";
-import { Button } from "../Button";
+import { TableWithError } from "../Table";
+import { ButtonWithLoading } from "../Loading";
 import axios from "axios";
 import "./index.css";
 
@@ -25,7 +25,10 @@ export class App extends Component {
       results: null,
       searchKey: "",
       searchTerm: DEFAUT_QUERY,
-      error: null
+      error: null,
+      isLoading: false,
+      sortKey: "NONE",
+      isSortReverse: false
     };
 
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
@@ -34,6 +37,7 @@ export class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
+    this.onSort = this.onSort.bind(this);
   }
 
   needsToSearchTopStories(searchTerm) {
@@ -48,11 +52,14 @@ export class App extends Component {
     const updatedHits = [...oldHits, ...hits];
 
     this.setState({
-      results: { ...results, [searchKey]: { hits: updatedHits, page: page } }
+      results: { ...results, [searchKey]: { hits: updatedHits, page: page } },
+      isLoading: false
     });
   }
 
   fetchSearchTopStories(searchTerm, page = 0) {
+    this.setState({ isLoading: true });
+
     axios(
       `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`
     )
@@ -82,6 +89,12 @@ export class App extends Component {
     });
   }
 
+  onSort(sortKey) {
+    const isSortReverse =
+      this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
+  }
+
   componentDidMount() {
     this._isMounted = true;
 
@@ -95,7 +108,15 @@ export class App extends Component {
   }
 
   render() {
-    const { searchTerm, results, searchKey, error } = this.state;
+    const {
+      searchTerm,
+      results,
+      searchKey,
+      error,
+      isLoading,
+      sortKey,
+      isSortReverse
+    } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
     const list =
@@ -110,20 +131,22 @@ export class App extends Component {
           >
             Search
           </Search>
-          {error ? (
-            <div className="interactions">
-              <p>Something went wrong.</p>
-            </div>
-          ) : (
-            <Table list={list} onDismiss={this.onDismiss} />
-          )}
+          <TableWithError
+            error={error}
+            list={list}
+            sortKey={sortKey}
+            isSortReverse={isSortReverse}
+            onSort={this.onSort}
+            onDismiss={this.onDismiss}
+          />
         </div>
         <div className="interactions">
-          <Button
+          <ButtonWithLoading
+            isLoading={isLoading}
             onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
           >
             More
-          </Button>
+          </ButtonWithLoading>
         </div>
       </div>
     );
