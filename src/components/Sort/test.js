@@ -4,23 +4,20 @@ import renderer from "react-test-renderer";
 import { Sort } from ".";
 
 describe("Sort", () => {
+  const props = {
+    sortKey: "TITLE",
+    onSort: function() {},
+    activeSortKey: "TITLE"
+  };
+
   it("renders without crashing", () => {
     const div = document.createElement("div");
-    ReactDOM.render(
-      <Sort sortKey="NONE" onSort={function() {}}>
-        Sort
-      </Sort>,
-      div
-    );
+    ReactDOM.render(<Sort {...props}>Sort</Sort>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   test("has a valid snapshot", () => {
-    const component = renderer.create(
-      <Sort sortKey="NONE" onSort={function() {}}>
-        Sort
-      </Sort>
-    );
+    const component = renderer.create(<Sort {...props}>Sort</Sort>);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });

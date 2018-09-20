@@ -5,7 +5,7 @@ import "font-awesome/css/font-awesome.min.css";
 
 const Loading = () => (
   <div>
-    <span className="fa fa-spinner fa-spin" />
+    <i className="fa fa-spinner fa-spin" />
   </div>
 );
 

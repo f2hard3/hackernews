@@ -103,7 +103,7 @@ exports[`App has a valid snapshop 1`] = `
     className="interactions"
   >
     <div>
-      <span
+      <i
         className="fa fa-spinner fa-spin"
       />
     </div>
