@@ -28,6 +28,10 @@ describe("TableWithError", () => {
     const element = shallow(<Table {...props} />);
     expect(element.find(".table-row").length).toBe(2);
   });
+  it("renders the Table Component", () => {
+    const tableWithError = shallow(<TableWithError {...props} />);
+    expect(tableWithError.find(Table).length).toBe(1);
+  });
 
   test("has a valid snapshot", () => {
     const component = renderer.create(<TableWithError {...props} />);

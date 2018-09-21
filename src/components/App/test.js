@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import renderer from "react-test-renderer";
+import sinon from "sinon";
 import { App } from ".";
 
 describe("App", () => {
