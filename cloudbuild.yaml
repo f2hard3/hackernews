@@ -12,5 +12,5 @@ steps:
   - hackernews
   - web=gcr.io/$PROJECT_ID/hackernews:1.0.$BUILD_ID
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=asis-northeast1-b'
+  - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1-b'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cloud-build-example'
